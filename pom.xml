@@ -92,8 +92,13 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>edu.ucla.library.iiif.manifestor.IIIFManifestor</mainClass>
+                </transformer>
+              </transformers>
               <artifactSet></artifactSet>
-              <outputFile>${project.build.directory}/build-artifact/${project.artifactId}-${project.version}.jar</outputFile>
+              <outputFile>${project.build.directory}/build-artifact/${project.artifactId}-${project.version}-exec.jar</outputFile>
             </configuration>
           </execution>
         </executions>

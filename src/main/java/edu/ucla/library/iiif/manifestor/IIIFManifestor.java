@@ -272,6 +272,8 @@ public class IIIFManifestor {
 					LOGGER.error("List of manifests TSV exists but can't be read: {}", lFile);
 					System.exit(1);
 				}
+			} else if (args[index].equals("--help")) {
+				printHelpAndExit();
 			}
 			
 		}
@@ -350,6 +352,29 @@ public class IIIFManifestor {
 				}
 			}
 		}
+	}
+
+	private static void printHelpAndExit() {
+		String message = ""
+			+ "USAGE:\n"
+			+ "\tjava -jar iiif-manifestor-0.0.1-SNAPSHOT-exec.jar --help\n"
+			+ "\tjava -jar iiif-manifestor-0.0.1-SNAPSHOT-exec.jar -s <server> -m <metadata-csv> [-i] -l <list-tsv> -t <thumbnail-csv>\n"
+			+ "\tjava -jar iiif-manifestor-0.0.1-SNAPSHOT-exec.jar -s <server> -m <metadata-csv> [-i] -a <ark> -c <tif-csv> -o <output-file> [-d <dimensions> -t <thumbnail-csv>]\n\n"
+			+ "The first command syntax shows this help message.\nThe second syntax is used for generating multiple manifests at a time.\nThe third is used for generating a single manifest at a time.\n\n"
+			+ "OPTIONS:\n"
+			+ "\t--help - show this help message\n"
+			+ "\t-a <ark> - Archival Resource Key of the manifest to create\n"
+			+ "\t-c <tif-csv> - path to a CSV file with the format \"<ark>,<filepath.tif>\", where \"<filepath.tif>\" is a path string containing label information for each canvas\n"
+			+ "\t-d <dimensions> - the dimensions of each IIIF canvas in the manifest, in pixels, in the format \"<width>,<height>\", where width and height are integers. e.g. \"8612,7216\"\n"
+			+ "\t-i - whether to include explicit thumbnail entries in the canvases\n"
+			+ "\t-l <list-tsv> - path to a TSV file with the format \"<ark>TAB<tif-csv>TAB<output-file>TAB<dimensions>\", where each field has the same semantics as the options listed here\n"
+			+ "\t-m <metadata-csv> - path to a CSV file containing a header with keys of each metadata field, with each row having the corresponding values for each manifest\n"
+			+ "\t-o <output-file> - location to write the manifest file to (must explicitly specify filename and extension\n"
+			+ "\t-s <server> - either \"test\", \"stage\", \"prod\"\n"
+			+ "\t-t <thumbnail-csv> - path to a CSV fie with the format \"<ark>,<url>\", were \"<url>\" is a URL that points to a thumbnail on a IIIF image server\n";
+		System.out.println(message);
+		System.exit(0);
+		
 	}
 
 	private void manifest(final SinaiComparator aComparator) throws IOException, URISyntaxException, Exception {
@@ -766,13 +791,7 @@ public class IIIFManifestor {
 	}
 
 	private static final void printUsageAndExit() {
-		System.err.println();
-		System.err.println("Usage:\n    -c [path to source CSV]\n    -m [path to metadata CSV]\n    -t [path to thumbnail CSV]\n    -o [path to output manifest]\n    -a [Archival Resource Key]\n    -s [server (test, stage, prod)]\n    -d [dimensions (width,height)]\n");
-		System.err.println("    -t and -d must both be either present or absent\n");
-		System.err.println("    OR");
-		System.err.println("    -m [path to metadata CSV]\n    -t [path to thumbnail CSV]\n    -s [server (test, stage, prod)]\n    -l [path to list of jobs TSV]\n");
-		System.err.println("For example: java -jar iiif-manifestor.jar -c \"/home/kevin/syriac-filtered.csv\" -m \"/home/kevin/manifest-metadata.csv\" -t \"/home/kevin/first-five-thumbnails.csv\" -o \"/home/kevin/manifest.json\" -a \"ark:/21198/z1h70g33\" -s \"stage\" -d \"8000,6000\"");
-		System.err.println();
+		System.err.println("Pass the \"--help\" flag for usage synopsis.");
 		System.exit(1);
 	}
 }
